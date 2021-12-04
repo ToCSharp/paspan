@@ -1,5 +1,6 @@
 # Paspan
 
+[![NuGet](https://img.shields.io/nuget/v/Paspan.svg)](https://nuget.org/packages/Paspan)
 [![BSD 3-Clause](https://img.shields.io/github/license/sebastienros/parlot)](https://github.com/sebastienros/parlot/blob/main/LICENSE) [![Join the chat at https://gitter.im/sebastienros/parlot](https://badges.gitter.im/sebastienros/parlot.svg)](https://gitter.im/sebastienros/parlot?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 Paspan is [Parlot](https://github.com/sebastienros/parlot) fork. It is a __fast__, __lightweight__ and simple to use .NET parser combinator.
@@ -15,10 +16,14 @@ The Fluent API provides simple parser combinators that are assembled to express 
 The main goal of this API is to provide and easy-to-read grammar. Another advantage is that grammars are built at runtime, and they can be extended dynamically.
 
 ```c#
+using Paspan.Common;
+using Paspan.Fluent;
+using static Paspan.Fluent.Parsers;
+
 Parser<ulong> hex = Terms.Pattern(c => Character.IsHexDigit(c)).AsHex();
 Parser<(ulong Start, ulong End)> AddressRangeParser = '['.And(hex).Skip(" - ").And(hex).Skip(']');
 
-Assert.True((0x7FF55CC77440, 0x7FFBBCC77440) == AddressRangeParser.Parse("[7FF55CC77440 - 7FFBBCC77440]"));
+Console.WriteLine((0x7FF55CC77440, 0x7FFBBCC77440) == AddressRangeParser.Parse("[7FF55CC77440 - 7FFBBCC77440]"));
 ```
 
 The following example is a complete parser that create a mathematical expression tree (AST).
