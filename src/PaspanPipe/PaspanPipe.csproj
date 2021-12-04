@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <Platforms>AnyCPU;x64</Platforms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="..\PaspanMultiSegment\SpanReader.TryGet.cs" Link="SpanReader.TryGet.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.IO.Pipelines" Version="6.0.0" />
+  </ItemGroup>
+
+  <Import Project="..\PaspanCommon\PaspanCommon.projitems" Label="Shared" />
+
+</Project>
