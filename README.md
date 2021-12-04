@@ -141,25 +141,30 @@ This benchmark creates an expression tree (AST) representing mathematical expres
 These benchmarks don't evaluate the expressions but only parse them to create the same AST.
 
 ```
-BenchmarkDotNet=v0.12.1, OS=Windows 10.0.19042
-Intel Core i7-1065G7 CPU 1.30GHz, 1 CPU, 8 logical and 4 physical cores
-.NET Core SDK=6.0.100-preview.4.21216.15
-  [Host]   : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
-  ShortRun : .NET Core 5.0.5 (CoreCLR 5.0.521.16609, CoreFX 5.0.521.16609), X64 RyuJIT
+BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19043.1348 (21H1/May2021Update)
+Intel Core i5-9600K CPU 3.70GHz (Coffee Lake), 1 CPU, 6 logical and 6 physical cores
+.NET SDK=6.0.100
+  [Host]   : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
+  ShortRun : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
 
 Job=ShortRun  IterationCount=3  LaunchCount=1
 WarmupCount=3
 
-|              Method |        Mean |       Error |      StdDev | Ratio | RatioSD |  Gen 0 | Gen 1 | Gen 2 | Allocated |
-|-------------------- |------------:|------------:|------------:|------:|--------:|-------:|------:|------:|----------:|
-| ParlotCompiledSmall |    769.6 ns |    709.4 ns |    38.89 ns |  1.70 |    0.08 | 0.1564 |     - |     - |     656 B |
-|   ParlotFluentSmall |    931.7 ns |    622.3 ns |    34.11 ns |  2.06 |    0.10 | 0.1564 |     - |     - |     656 B |
-|         PidginSmall | 11,668.0 ns | 10,591.9 ns |   580.58 ns | 25.77 |    1.64 | 0.1831 |     - |     - |     816 B |
-|                     |             |             |             |       |         |        |       |       |           |
-|   ParlotCompiledBig |  4,357.3 ns |  2,429.2 ns |   133.15 ns |  1.94 |    0.09 | 0.6866 |     - |     - |    2888 B |
-|     ParlotFluentBig |  5,312.8 ns |  3,441.7 ns |   188.65 ns |  2.36 |    0.06 | 0.6866 |     - |     - |    2888 B |
-|           PidginBig | 60,793.9 ns | 24,192.2 ns | 1,326.06 ns | 27.02 |    0.11 | 0.8545 |     - |     - |    4072 B |
-
+|              Method |        Mean |     Error |   StdDev | Ratio | RatioSD |  Gen 0 |  Gen 1 | Allocated |
+|-------------------- |------------:|----------:|---------:|------:|--------:|-------:|-------:|----------:|
+|      PaspanRawSmall |    209.3 ns |   3.01 ns |  0.16 ns |  1.00 |    0.00 | 0.0560 |      - |     264 B |
+|   PaspanFluentSmall |    833.2 ns |  37.18 ns |  2.04 ns |  3.98 |    0.01 | 0.1440 |      - |     680 B |
+|      ParlotRawSmall |    346.2 ns |  20.21 ns |  1.11 ns |  1.65 |    0.01 | 0.0644 |      - |     304 B |
+| ParlotCompiledSmall |    573.0 ns | 355.44 ns | 19.48 ns |  2.74 |    0.09 | 0.1392 |      - |     656 B |
+|   ParlotFluentSmall |    863.0 ns |   9.64 ns |  0.53 ns |  4.12 |    0.00 | 0.1392 |      - |     656 B |
+|         PidginSmall |  8,773.3 ns | 590.26 ns | 32.35 ns | 41.91 |    0.15 | 0.1678 |      - |     832 B |
+|                     |             |           |          |       |         |        |        |           |
+|        PaspanRawBig |  1,038.6 ns | 327.78 ns | 17.97 ns |  1.00 |    0.00 | 0.2613 |      - |   1,232 B |
+|     PaspanFluentBig |  4,490.1 ns |  50.25 ns |  2.75 ns |  4.32 |    0.08 | 0.7324 |      - |   3,464 B |
+|        ParlotRawBig |  1,689.9 ns |  34.60 ns |  1.90 ns |  1.63 |    0.03 | 0.2537 |      - |   1,200 B |
+|   ParlotCompiledBig |  3,247.5 ns |  89.53 ns |  4.91 ns |  3.13 |    0.06 | 0.6104 | 0.0038 |   2,888 B |
+|     ParlotFluentBig |  4,567.0 ns |  96.86 ns |  5.31 ns |  4.40 |    0.07 | 0.6104 |      - |   2,888 B |
+|           PidginBig | 45,716.8 ns | 698.94 ns | 38.31 ns | 44.03 |    0.78 | 0.8545 |      - |   4,152 B |
 ```
 
 ### JSON Benchmarks
@@ -239,34 +244,6 @@ WarmupCount=3
 |      PaspanEmailRaw |  49.27 ns |  0.070 ns | 0.004 ns |      - |         - |
 |         ParlotEmail | 308.66 ns | 44.932 ns | 2.463 ns | 0.0677 |     320 B |
 | ParlotEmailCompiled | 131.05 ns |  3.307 ns | 0.181 ns | 0.0272 |     128 B |
-```
-
-### Expression Benchmarks
-```
-BenchmarkDotNet=v0.13.1, OS=Windows 10.0.19043.1348 (21H1/May2021Update)
-Intel Core i5-9600K CPU 3.70GHz (Coffee Lake), 1 CPU, 6 logical and 6 physical cores
-.NET SDK=6.0.100
-  [Host]   : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
-  ShortRun : .NET 6.0.0 (6.0.21.52210), X64 RyuJIT
-
-Job=ShortRun  IterationCount=3  LaunchCount=1
-WarmupCount=3
-
-|              Method |        Mean |     Error |   StdDev | Ratio | RatioSD |  Gen 0 |  Gen 1 | Allocated |
-|-------------------- |------------:|----------:|---------:|------:|--------:|-------:|-------:|----------:|
-|      PaspanRawSmall |    209.3 ns |   3.01 ns |  0.16 ns |  1.00 |    0.00 | 0.0560 |      - |     264 B |
-|   PaspanFluentSmall |    833.2 ns |  37.18 ns |  2.04 ns |  3.98 |    0.01 | 0.1440 |      - |     680 B |
-|      ParlotRawSmall |    346.2 ns |  20.21 ns |  1.11 ns |  1.65 |    0.01 | 0.0644 |      - |     304 B |
-| ParlotCompiledSmall |    573.0 ns | 355.44 ns | 19.48 ns |  2.74 |    0.09 | 0.1392 |      - |     656 B |
-|   ParlotFluentSmall |    863.0 ns |   9.64 ns |  0.53 ns |  4.12 |    0.00 | 0.1392 |      - |     656 B |
-|         PidginSmall |  8,773.3 ns | 590.26 ns | 32.35 ns | 41.91 |    0.15 | 0.1678 |      - |     832 B |
-|                     |             |           |          |       |         |        |        |           |
-|        PaspanRawBig |  1,038.6 ns | 327.78 ns | 17.97 ns |  1.00 |    0.00 | 0.2613 |      - |   1,232 B |
-|     PaspanFluentBig |  4,490.1 ns |  50.25 ns |  2.75 ns |  4.32 |    0.08 | 0.7324 |      - |   3,464 B |
-|        ParlotRawBig |  1,689.9 ns |  34.60 ns |  1.90 ns |  1.63 |    0.03 | 0.2537 |      - |   1,200 B |
-|   ParlotCompiledBig |  3,247.5 ns |  89.53 ns |  4.91 ns |  3.13 |    0.06 | 0.6104 | 0.0038 |   2,888 B |
-|     ParlotFluentBig |  4,567.0 ns |  96.86 ns |  5.31 ns |  4.40 |    0.07 | 0.6104 |      - |   2,888 B |
-|           PidginBig | 45,716.8 ns | 698.94 ns | 38.31 ns | 44.03 |    0.78 | 0.8545 |      - |   4,152 B |
 ```
 
 
